@@ -64,12 +64,16 @@ cat << EOF > install_homebrew_packages.yml
   gather_facts: false
 
   tasks:
-    - name: Install Homebrew Cask applications
+    - name: Install Homebrew Cask Apps, Formulae, React Native, and Expo CLI
       community.general.homebrew_cask:
         name:
           - alfred
           - android-platform-tools
           - android-studio
+          - angry-ip-scanner
+          - appcleaner
+          - apk-icon-editor
+          - bitwarden
           - expo-orbit
           - firefox
           - flutter
@@ -78,11 +82,13 @@ cat << EOF > install_homebrew_packages.yml
           - insomnia
           - iterm2
           - libreoffice
+          - pycharm
           - raindropio
           - rectangle
           - stats
           - temurin
           - temurin@8
+          - webstorm
           - visual-studio-code
           - zed
           - zulu@17
@@ -259,12 +265,37 @@ cat << EOF > install_homebrew_packages.yml
           - zstd
         state: present
       become: false
+
+    - name: Install React Native CLI
+      npm:
+        name: react-native-cli
+        global: yes
+      become: false
+
+    - name: Install Expo CLI
+      npm:
+        name: expo-cli
+        global: yes
+      become: false
+      
 EOF
 
 # Install community.general collection
 ansible-galaxy collection install community.general
 
 # Run Ansible playbook
-ansible-playbook install_homebrew_packages.yml
+echo "Starting installation of Homebrew packages, React Native, and Expo CLI..."
+ansible-playbook install_homebrew_packages.yml &
+
+# Show progress bar while Ansible is running
+show_progress 300 50 &
+
+# Wait for Ansible to finish
+wait
 
 echo "Setup complete!"
+
+echo "
+IMPORTANT: Xcode needs to be installed manually from the App Store.
+Please install Xcode, then run 'xcode-select --install' to install command line tools.
+After installation, open Xcode to accept the license agreement."
