@@ -1,5 +1,27 @@
 #!/bin/bash
 
+# Function to show a simple progress bar
+show_progress() {
+    local duration=$1
+    local steps=$2
+    local sleep_time=$(bc <<< "scale=2; $duration / $steps")
+    local progress=0
+    while [ $progress -le 100 ]; do
+        echo -ne "\rProgress: [${progress}%] ["
+        for i in $(seq 1 $steps); do
+            if [ $i -le $(($progress * $steps / 100)) ]; then
+                echo -n "="
+            else
+                echo -n " "
+            fi
+        done
+        echo -n "]"
+        progress=$((progress + 100/$steps))
+        sleep $sleep_time
+    done
+    echo
+}
+
 # Function to install Homebrew
 install_homebrew() {
     echo "Installing Homebrew..."
