@@ -49,11 +49,13 @@ cat << EOF > install_homebrew_packages.yml
           - android-platform-tools
           - android-studio
           - expo-orbit
+          - firefox
           - flutter
           - font-meslo-lg-nerd-font
           - imageoptim
           - insomnia
           - iterm2
+          - libreoffice
           - raindropio
           - rectangle
           - stats
