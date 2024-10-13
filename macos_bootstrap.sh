@@ -81,6 +81,7 @@ cat << EOF > install_homebrew_packages.yml
           - imageoptim
           - insomnia
           - iterm2
+          - obs
           - libreoffice
           - pycharm
           - raindropio
